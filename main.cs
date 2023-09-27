@@ -17,37 +17,37 @@ namespace Cinema_Booking_System
     {
 
 
-        
+
 
         class Theatre
         {
             //gonna be 2d array for theatre seats :)
             public string[,] seatingArray;
             //to check if a movie can use this theatre for showing
-           
+
             public int seatsAvailable;
             //when constructing a theatre give the constructor class the dimensions please
 
             public Theatre(int width, int height)
             {
                 //create a nice array of the movie theatre
-               seatingArray = new string[width, height];
+                seatingArray = new string[width, height];
                 seatsAvailable = width * height;
-                
+
                 for (int i = 0; i < seatingArray.GetLength(0); i++)
                 {
                     for (int ii = 0; ii < seatingArray.GetLength(1); ii++)
                     {
                         //could maybe make this an array of a Seat class
                         seatingArray[i, ii] = "O";
-                        
+
                     }
                 }
-                
+
             }
-            
+
             //if they need seating for a theatre (to check its not full or decide what seat they want to pick, then they can do that using this method)
-            
+
             public void DisplaySeating()
             {
 
@@ -64,31 +64,31 @@ namespace Cinema_Booking_System
                         {
 
                             //add the few bits of whitespace to the front of the row numbers
-                            string valToOutput = (ii == 0 ? "  " : "") + (ii+1);
+                            string valToOutput = (ii == 0 ? "  " : "") + (ii + 1);
                             //if at the end of the array then do newline so the first line of row variable isnt appeneded to the end of this
-                            valToOutput = ii == arrayLength - 1 ? valToOutput +"\n" : valToOutput+"" ;
+                            valToOutput = ii == arrayLength - 1 ? valToOutput + "\n" : valToOutput + "";
 
                             Console.Write(valToOutput);
 
 
-                           
+
                         }
                     }
-                    
+
                     //column numbers
-                    Console.Write(i+1);
+                    Console.Write(i + 1);
                     //output row
                     Console.WriteLine(" " + row);
                 }
             }
 
             //returns "booked" if booked and, "cancelled" if cancelled
-            
+
 
         }
 
-       
-        
+
+
 
         //each movie has a theatre
         class Movie
@@ -97,14 +97,14 @@ namespace Cinema_Booking_System
             public string ageRating;
             public string title;
             public int ticketsSold = 0;
-            
-            public Movie(Theatre theatre, string movieTitle,  string ageReq)
+            public DateTime movieDate;
+            public Movie(Theatre theatre, string movieTitle, string ageReq, DateTime date)
             {
 
                 showingTheatre = theatre;
                 title = movieTitle;
                 ageRating = ageReq;
-                
+                movieDate = date;
             }
         }
 
@@ -120,7 +120,8 @@ namespace Cinema_Booking_System
             public void ChooseMovie()
             {
                 Movie newMovie = null;
-                while (newMovie == null) {
+                while (newMovie == null)
+                {
                     for (int i = 0; i < currentMovies.Count; i++)
                     {
                         Movie movie = currentMovies[i];
@@ -128,7 +129,7 @@ namespace Cinema_Booking_System
                         {
                             Console.WriteLine($"{i + 1}: This movie is sold out and cannot be displayed");
                         }
-                        Console.WriteLine($"{i + 1}:  {movie.title},  Age Rating: {movie.ageRating}, Tickets Sold: {movie.ticketsSold}/{movie.showingTheatre.seatsAvailable}");
+                        Console.WriteLine($"{i + 1}:  {movie.title},  Age Rating: {movie.ageRating}, Tickets Sold: {movie.ticketsSold}/{movie.showingTheatre.seatsAvailable}, Showing time {movie.movieDate.ToShortDateString()} at {movie.movieDate.ToShortTimeString()}");
                     }
                     try
                     {
@@ -145,7 +146,7 @@ namespace Cinema_Booking_System
                         {
 
 
-                            newMovie = currentMovies[movieNum]; 
+                            newMovie = currentMovies[movieNum];
                             yourMovie = currentMovies[movieNum];
 
 
@@ -154,15 +155,16 @@ namespace Cinema_Booking_System
                                 Console.WriteLine($"This movie is sold out and cannot be purchased from.");
                                 continue;
                             }
-                            
-                        
+
+
                         }
                         else
                         {
                             { Console.WriteLine("Movie does not exist"); }
                         }
-                         
-                    } catch
+
+                    }
+                    catch
                     {
                         Console.WriteLine("An error occured, please try again.");
                     }
@@ -187,10 +189,10 @@ namespace Cinema_Booking_System
                     {
                         if (yourMovie == null)
                         {
-                           
+
                             ChooseMovie();
                         }
-                        
+
 
 
                         string ageRating = yourMovie.ageRating;
@@ -239,7 +241,7 @@ namespace Cinema_Booking_System
                                 price += 7.00;
                             }
 
-                         
+
                             string response = ChooseSeat();
                             if (response == "cancelled")
                             {
@@ -260,21 +262,21 @@ namespace Cinema_Booking_System
                         {
                             Console.WriteLine("You are not old enough to watch this movie");
                             ChooseMovie();
-                            
-                        }
-                       
-                        
 
-                        
-                        
+                        }
+
+
+
+
+
                     }
 
 
 
 
                 }
-                
-                
+
+
 
                 //add here display movies, get input on movies, do whatever the task says on google, check if the 
                 //specific movie is in full capacity with Movie.Theatre.seats <= Movie.ticketsSold
@@ -282,8 +284,8 @@ namespace Cinema_Booking_System
                 Console.WriteLine("Refreshing...");
                 Thread.Sleep(3000);
                 Console.Clear();
-                
-              
+
+
 
             }
 
@@ -324,7 +326,7 @@ namespace Cinema_Booking_System
 
 
                     }
-                    int row = int.Parse(rowString)-1;
+                    int row = int.Parse(rowString) - 1;
 
 
                     Console.Write("Enter Column: ");
@@ -337,7 +339,7 @@ namespace Cinema_Booking_System
 
 
                     }
-                    int column = int.Parse(columnString)-1;
+                    int column = int.Parse(columnString) - 1;
 
 
                     if (seatingArray[row, column] == "X")
@@ -349,8 +351,8 @@ namespace Cinema_Booking_System
                     {
                         Console.Clear();
                         seatingArray[row, column] = "X";
-                        Console.WriteLine($"This seat is free, you are now booked in seat {row+1}:{column+1}, welcome to the theatre");
-                        
+                        Console.WriteLine($"This seat is free, you are now booked in seat {row + 1}:{column + 1}, welcome to the theatre");
+
                         yourMovie.ticketsSold += 1;
                         return "booked";
                     }
@@ -371,17 +373,17 @@ namespace Cinema_Booking_System
         //admin can create new movies, but they have to have the correct password
         class Admin
         {
-            
-            public List<Movie> CreateMovie(List<Movie> movieList, Dictionary<string,Theatre> theatres)
+
+            public List<Movie> CreateMovie(List<Movie> movieList, Dictionary<string, Theatre> theatres)
             {
 
                 Console.WriteLine("Enter Movie Title");
                 string title = Console.ReadLine().Trim();
                 Console.WriteLine("Enter Movie Rating");
                 string ageRating = Console.ReadLine().Trim();
-               
 
-                
+
+
                 bool accepted = false;
                 while (accepted == false)
                 {
@@ -393,18 +395,26 @@ namespace Cinema_Booking_System
                         {
                             return movieList;
                         }
-                        Movie mov = new Movie(theatres[theatre], title, ageRating);
+                        Console.WriteLine("Enter movie date as dd/mm/yyyy");
+                        DateTime movieDate = DateTime.Parse(Console.ReadLine().Trim());
+                        if (movieDate < DateTime.Now)
+                        {
+                            Console.WriteLine("Cant have a movie in the past");
+                            continue;
+                        }
+                       
+                        Movie mov = new Movie(theatres[theatre], title, ageRating, movieDate);
                         movieList.Add(mov);
                         accepted = true;
                         return movieList;
                     }
                     catch
                     {
-                        Console.WriteLine("Invalid Theatre ID");
+                        Console.WriteLine("Invalid Theatre ID or date");
 
                     }
                 }
-                
+
 
 
                 return movieList;
@@ -413,21 +423,23 @@ namespace Cinema_Booking_System
             public List<Movie> DeleteMovie(List<Movie> movieList)
             {
 
-                
-                for (int i=0; i<movieList.Count; i++)
+
+                for (int i = 0; i < movieList.Count; i++)
                 {
-                    Console.WriteLine($"{i+1}: {movieList[i].title}");
+                    Console.WriteLine($"{i + 1}: {movieList[i].title}");
                 }
                 Console.WriteLine("Type the number of the movie you would like to remove, then hit enter, type \"x\" to cancel");
                 string movieNumString = Console.ReadLine().Trim();
                 if (movieNumString != "x")
                 {
-                    try {  
+                    try
+                    {
                         int movieNumInt = int.Parse(movieNumString);
                         movieList.Remove(movieList[movieNumInt - 1]);
-                        Console.WriteLine($"{movieList[movieNumInt-1].title} has been removed");
-                        
-                    } catch
+                        Console.WriteLine($"{movieList[movieNumInt - 1].title} has been removed");
+
+                    }
+                    catch
                     {
                         Console.WriteLine("Operation failed.");
                     }
@@ -461,11 +473,11 @@ namespace Cinema_Booking_System
             theatres.Add("C", new Theatre(9, 5));
 
             List<Movie> moviesShowing = new List<Movie>();
-            moviesShowing.Add(new Movie(theatres["A"], "The Rental", "U"));
-            moviesShowing.Add(new Movie(theatres["B"], "The Mortgage", "U"));
-            moviesShowing.Add(new Movie(theatres["C"], "The Debt", "U"));
-            moviesShowing.Add(new Movie(theatres["A"], "The Toast", "PG"));
-            moviesShowing.Add(new Movie(theatres["B"], "The Rental 2", "18"));
+            moviesShowing.Add(new Movie(theatres["A"], "The Rental", "U", DateTime.Now + new TimeSpan (25,0,0) ));
+            moviesShowing.Add(new Movie(theatres["B"], "The Mortgage", "U" , DateTime.Now + new TimeSpan(25, 0, 0)));
+            moviesShowing.Add(new Movie(theatres["C"], "The Debt", "U", DateTime.Now + new TimeSpan(25, 0, 0)));
+            moviesShowing.Add(new Movie(theatres["A"], "The Toast", "PG", DateTime.Now + new TimeSpan(30, 0, 0)));
+            moviesShowing.Add(new Movie(theatres["B"], "The Rental 2", "18",DateTime.Now + new TimeSpan(30, 0, 0)));
 
 
 
@@ -481,7 +493,7 @@ namespace Cinema_Booking_System
                     string user = Console.ReadLine();
                     Console.WriteLine("Enter password: ");
                     string pass = Console.ReadLine();
-                    if (pass =="password" && user == "username")
+                    if (pass == "password" && user == "username")
                     {
                         Admin admin = new Admin();
                         Console.WriteLine("Welcome administrator");
@@ -503,14 +515,14 @@ namespace Cinema_Booking_System
                                     break;
                                 default:
                                     continue;
-                                   
+
 
 
                             }
-                        
+
                         }
-                        
-                       
+
+
                     }
                     else
                     {
@@ -525,27 +537,28 @@ namespace Cinema_Booking_System
                 }
                 else
                 {
-                    
+
                     Console.WriteLine("Welcome to the Cinema Booking System, your booking will commence now!");
 
                     Console.WriteLine("Input how many people are booking: ");
-                    
+
                     try
                     {
                         int bookers = int.Parse(Console.ReadLine().Trim());
                         Booking newBooking = new Booking(moviesShowing, bookers);
-                    } catch
+                    }
+                    catch
                     {
                         Console.WriteLine("Invalid input");
                     }
-                    
-                    
-                   
+
+
+
                 }
 
 
 
             }
-            }
         }
     }
+}
